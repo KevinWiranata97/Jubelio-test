@@ -1,7 +1,4 @@
 const pg = require("pg");
-
-
-
 const config = {
   user: "postgres", //this is the db user credential
   database: "Jubelio",
