@@ -69,7 +69,7 @@ async function getData() {
         dataProducts.push(final);
 
         fs.writeFileSync(
-          "products2.json",
+          "products.json",
           JSON.stringify(dataProducts, null, 4)
         );
       });
