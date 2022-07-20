@@ -2,7 +2,19 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import Modal from "../components/Modal";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 export default function DetailViews() {
+  const params = useParams();
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/products/${params.id}`)
+      .then((response) => response.json())
+      .then((data) => setProduct(data))
+  }, [params.id]);
+
+
   return (
     <>
       <div class="container mx-auto p-5">
@@ -12,33 +24,33 @@ export default function DetailViews() {
       <div className="container grid grid-cols-2 px-48 py-24 gap-6">
         <div>
           <img
-            src="https://source.unsplash.com/1289x960?usb"
+            src={product.image}
             alt="usb"
             className="w-full"
           ></img>
           <div className="grid grid-cols-5 gap-4 mt-4">
             <img
-              src="https://source.unsplash.com/1289x960?usb"
+              src={product.image}
               alt="usb"
               className="w-full cursor-pointer border border-red-500"
             ></img>
             <img
-              src="https://source.unsplash.com/1289x960?usb"
+              src={product.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src="https://source.unsplash.com/1289x960?usb"
+              src={product.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src="https://source.unsplash.com/1289x960?usb"
+              src={product.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src="https://source.unsplash.com/1289x960?usb"
+              src={product.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
@@ -47,7 +59,7 @@ export default function DetailViews() {
 
         <div className=" text-justify">
           <h2 className="text-3xl font-medium uppercase mb-2 ">
-            USB CABLE BASEUS 30 CM{" "}
+            {product.product_name}
           </h2>
 
           <div className="flex items-center mb-4 text-justify">
@@ -88,20 +100,18 @@ export default function DetailViews() {
 
             <p className="text-gray-800 font-semibold">
               <span>SKU:</span>
-              <span className="text-slate-500 font-normal"> 523412313</span>
+              <span className="text-slate-500 font-normal">{product.sku}</span>
             </p>
           </div>
 
           <div className="flex items-baseline mb-1 space-x-2 mt-4">
-            <p className="text-2xl text-red-600 font-semibold">Rp. 20.000,00</p>
+            <p className="text-2xl text-red-600 font-semibold">Rp.{product.price}</p>
             <p className="text-base text-gray-600 line-through">
-              Rp. 35.000,00
+              Rp. 999.000.00
             </p>
           </div>
           <p className="text-gray-600 mt-4">
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-            pretium tellus duis convallis.
+          {product.description}
           </p>
 
           <div className="mt-4">

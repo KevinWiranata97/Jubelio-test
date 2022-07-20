@@ -13,7 +13,7 @@ return(
                 Our brand motto goes here.
               </p>
               <a
-                href="a.com"
+                href="/shop"
                 class="bg-gradient-to-r from-blue-600 to-white-500 rounded-full py-4 px-8 text-gray-50 uppercase text-xl md:self-start my-5 hover:to-blue-800"
               >
                 Shop Now

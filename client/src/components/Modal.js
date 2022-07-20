@@ -2,6 +2,13 @@ import React from "react";
 
 export default function Modal() {
   const [showModal, setShowModal] = React.useState(false);
+
+async function editDetails(e) {
+    e.preventDefault();
+    
+   
+     
+   }
   return (
     <>
       <button
@@ -20,7 +27,7 @@ export default function Modal() {
         <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden text-justify bg-white">
           <h2 className="text-2xl uppercase font-medium mb-3">Add new Product</h2>
           
-          <form>
+          <form onSubmit={editDetails}>
             <div className="space-y-3">
               <div>
                 <label for="Product Name" className="text-gray-600 mb-2 block">
@@ -77,7 +84,7 @@ export default function Modal() {
       
 
             <div className="mt-4">
-              <button type="submit" className="block w-full py-2 text-center bg-red-500 text-white border border-red-500 rounded hover:bg-transparent hover:text-red-500 transition font-medium">
+              <button onSubmit={editDetails} type="submit" className="block w-full py-2 text-center bg-red-500 text-white border border-red-500 rounded hover:bg-transparent hover:text-red-500 transition font-medium">
                 SUBMIT
               </button>
             </div>

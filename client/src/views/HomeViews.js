@@ -2,9 +2,13 @@ import NavBar from "../components/NavBar";
 import Headers from "../components/Headers";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
-export default function HomeViews() {
+import { observer} from "mobx-react";
+const Homeviews = observer(() =>{
+
+  
   return (
     <>
+    
       <body>
         <div className="container mx-auto p-5">
         <NavBar></NavBar>
@@ -47,4 +51,6 @@ export default function HomeViews() {
       </body>
     </>
   );
-}
+})
+
+export default Homeviews;

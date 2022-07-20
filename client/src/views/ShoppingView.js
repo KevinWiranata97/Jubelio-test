@@ -1,12 +1,17 @@
 import NavBar from "../components/NavBar";
 
-export default function ShoppingViews() {
+import ShopCard from "../components/Shopcard";
+import { observer } from "mobx-react";
+
+import store from "../stores/store";
+const ShoppingViews = observer(() =>{
+
   return (
     <>
       <div class="container mx-auto p-5">
         <NavBar></NavBar>
       </div>
-
+  
       <div className="container py-4 flex items center gap-3 ml-6 ">
         <a href="/" className="text-red-500 text-base">
           <i className="fas fa-home"></i>
@@ -16,7 +21,7 @@ export default function ShoppingViews() {
         </span>
         <p className="text-gray-600 font-medium">Shop</p>
       </div>
-
+  
       <div className="container grid grid-cols-4 gap-6 pt-4 pb-16 items-start">
         {/* sidebar */}
         <div className="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden ml-6">
@@ -34,7 +39,7 @@ export default function ShoppingViews() {
                     <span className="mx-1 text-gray-600 text-sm">(15)</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -42,7 +47,7 @@ export default function ShoppingViews() {
                     <span className="ml-1 text-gray-600 text-sm">(15)</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -50,7 +55,7 @@ export default function ShoppingViews() {
                     <span className="ml-1 text-gray-600 text-sm">(15)</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -61,7 +66,7 @@ export default function ShoppingViews() {
               </div>
             </div>
             {/* category end */}
-
+  
             {/* location */}
             <div className="text-justify pt-6">
               <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
@@ -74,21 +79,21 @@ export default function ShoppingViews() {
                     <span className="ml-2">DKI Jakarta</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
                     <span className="ml-2">Jabodetabek</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
                     <span className="ml-2">Bandung</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -97,7 +102,7 @@ export default function ShoppingViews() {
                 </div>
               </div>
             </div>
-
+  
             {/* price */}
             <div className="text-justify pt-6">
               <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
@@ -121,7 +126,7 @@ export default function ShoppingViews() {
                 </label>
               </div>
             </div>
-
+  
             {/* condition */}
             <div className="text-justify pt-6">
               <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
@@ -134,7 +139,7 @@ export default function ShoppingViews() {
                     <span className="ml-2">Baru</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -143,7 +148,7 @@ export default function ShoppingViews() {
                 </div>
               </div>
             </div>
-
+  
             {/* offers */}
             <div className="text-justify pt-6">
               <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
@@ -156,21 +161,21 @@ export default function ShoppingViews() {
                     <span className="ml-2">Cashback</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
                     <span className="ml-2">Free Shipping</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
                     <span className="ml-2">Discount</span>
                   </label>
                 </div>
-
+  
                 <div className="flex items-center">
                   <label className="text-gray-600 cursor-pointer">
                     <input type="checkbox" />
@@ -182,9 +187,9 @@ export default function ShoppingViews() {
           </div>
         </div>
         {/* sidebar end */}
-
+  
         {/* product */}
-
+  
         <div className="col-span-3">
           <div className="flex items-center mb-4">
             <select className="w-44 text-sm text-gray-600 px-4 py-3 border border-gray-300 shadow-sm rounded-md mr-96">
@@ -193,244 +198,25 @@ export default function ShoppingViews() {
               <option>Price high-low</option>
               <option>Latest</option>
             </select>
-
+  
             <div className="flex gap-2 ml-auto">
               <div className="border w-10 h-9 flex items-center justify-center text-white bg-blue-500 rounded cursor-pointer">
                 <i className="fas fa-th"></i>
               </div>
-
+  
               <div className="border border-gray-300 w-10 h-9 flex items-center justify-center text-gray-600 rounded cursor-pointer">
                 <i className="fas fa-list"></i>
               </div>
             </div>
           </div>
-
+  
           <div className="container pb-16 text-justify">
             <h2 className="text-2xl font-medium text-gray-600 uppercase mb-6">Top Picks</h2>
-
+  
               <div className="grid grid-cols-4 gap-6">
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-
-                    
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  <div className="bg-white shadow rounded overflow-hidden">
-                    <div className="relative">
-                      <img src="https://source.unsplash.com/1289x960?usb" alt="usb" className="w-full"></img>
-                     
-                    </div>
-
-                    <div className="pt-4 pb-3 px-4">
-                        <a href="/details">
-                          <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-500 transition">USB Cable Baseus</h4>
-                        </a>
-                        <div className="flex items-baseline mb-1 space-x-2">
-                              <p className="text-xl text-red-500 font-semibold">Rp.45.000.00</p>
-                              <p className="text-sm text-gray-500 font-semibold line-through">Rp.99.000,00</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <div className="flex gap-1 text-sm text-yellow-400">
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                            <span><i className="fas fa-star"></i></span>
-                          </div>
-                          <div className="text-xs text-gray-500 ml-3">(150)</div>
-                        </div>
-                    </div>
-                    <a href="/details" className="block w-full py-1 text-center text-white bg-red-500 border border-red-500 rounded-b hover:bg-transparent hover:text-red-500 transition">Add to cart</a>
-                  </div>
-                  
-
-
+              {store.products.map((products) => (
+             <ShopCard products={products}></ShopCard>
+                ))}
               </div>
           </div>
         </div>
@@ -438,4 +224,7 @@ export default function ShoppingViews() {
       </div>
     </>
   );
-}
+
+})
+
+export default ShoppingViews
