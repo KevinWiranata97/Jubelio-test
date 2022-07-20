@@ -1,12 +1,43 @@
 import NavBar from "../components/NavBar";
-
+import { useState } from "react"
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 export default function LoginViews() {
-  
- function login(e) {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+async function login(e) {
   e.preventDefault();
-  
+   try {
+    const data = {
+     email,
+     password
+    }
+    const response = await axios({
+      method: "POST",
+      url: `http://localhost:3000/login`,
+      data: data
+    });
 
+    console.log(response);
+    localStorage.setItem("Authorization", response.data.access_token);
+    localStorage.setItem("username", response.data.user_name);
+    Swal.fire(
+      'Good job!',
+      'Login Successfully!',
+      'success'
+    )
    
+    navigate('/')
+   } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.response.data.message,
+    })
+   }
+    
  }
   return (
     <>
@@ -28,6 +59,8 @@ export default function LoginViews() {
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded  focus:border-red-500"
                   placeholder="Enter your email address"
                 ></input>
@@ -37,7 +70,9 @@ export default function LoginViews() {
                   Password
                 </label>
                 <input
-                  type="text"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded"
                   placeholder="Enter your password "
                 ></input>

@@ -1,12 +1,17 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import ProductCard from "../components/ProductCard";
+import ShopCard from "../components/Shopcard";
 import Modal from "../components/Modal";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
 export default function DetailViews() {
+  const navigate = useNavigate()
   const params = useParams();
   const [product, setProduct] = useState([]);
+  const [productRec, setProductRec] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/products/${params.id}`)
@@ -14,6 +19,49 @@ export default function DetailViews() {
       .then((data) => setProduct(data))
   }, [params.id]);
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/products?limit=4`)
+      .then((response) => response.json())
+      .then((data) => setProductRec(data))
+  }, []);
+
+  async function deleteProduct() {
+
+    try {
+      await axios({
+        method: "DELETE",
+        url: `http://localhost:3000/products/${params.id}`,
+        headers: {
+          authorization: localStorage.getItem("Authorization"),
+        }
+      });
+      Swal.fire(
+        'Good job!',
+        'Data successfully edited!',
+        'success'
+      )
+    
+      navigate('/shop')
+    } catch (error) {
+      if(error.response.status === 401){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Please login first",
+        })
+  
+        setTimeout(() => {
+          navigate('/login')
+        }, 2500);
+      }
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+      })
+    }
+  }
 
   return (
     <>
@@ -133,12 +181,12 @@ export default function DetailViews() {
            
             <Modal></Modal>
 
-            <a
-              href="/"
+            <button
+              onClick={deleteProduct}
               className=" border border-gray-300 text-gray px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-red-600 transition"
             >
               <i className="fa-solid fa-dumpster"></i> Delete Product
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -226,7 +274,9 @@ export default function DetailViews() {
 
 
           <div class="grid grid-flow-row grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-5">
-        <ProductCard></ProductCard>
+          {productRec.map((products) => (
+                <ShopCard products={products}></ShopCard>
+              ))}
           </div>
         </div>
       <Footer></Footer>

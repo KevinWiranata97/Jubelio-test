@@ -1,12 +1,15 @@
-import { makeAutoObservable} from "mobx";
+import { makeAutoObservable, observable, action} from "mobx";
 
 export class Store {
   
 products = []
 
   constructor() {
-    makeAutoObservable(this);
-    fetchProducts()
+    makeAutoObservable(this,{
+      products: observable,
+      setProducts: action
+    });
+  fetchProducts()
   }
 
   setProducts(products) {

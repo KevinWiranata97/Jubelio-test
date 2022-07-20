@@ -2,6 +2,7 @@ import NavBar from "../components/NavBar";
 import ShopCard from "../components/Shopcard";
 import { observer } from "mobx-react";
 import store from "../stores/store";
+
 const ShoppingViews = observer(() => {
 
   return (

@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Swal from 'sweetalert2'
+
 export default function Modal() {
   const params = useParams();
 
 
+  const navigate = useNavigate()
   const [showModal, setShowModal] = React.useState(false);
   const [product_name, setProduct_name] = useState("");
   const [image, setImage] = useState("");
@@ -21,6 +23,9 @@ async function editDetails(e) {
     await axios({
       method: "PUT",
       url: `http://localhost:3000/products/${params.id}`,
+      headers: {
+        authorization: localStorage.getItem("Authorization"),
+      },
       data:{
         product_name,
         image,
@@ -42,10 +47,22 @@ async function editDetails(e) {
     }, 2500);
     
   } catch (error) {
+    if(error.response.status === 401){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Please login first",
+      })
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 2500);
+    }
+    console.log(error);
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: error.message,
+      text: error.response.data.message,
     })
   }
    }

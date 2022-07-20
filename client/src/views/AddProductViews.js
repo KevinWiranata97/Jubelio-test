@@ -25,6 +25,9 @@ export default function AddProductViews() {
      await axios({
         method: "POST",
         url: `http://localhost:3000/products`,
+        headers: {
+          authorization: localStorage.getItem("Authorization"),
+        },
         data: data
       });
 
@@ -38,11 +41,21 @@ export default function AddProductViews() {
       navigate('/shop')
 
     } catch (error) {
-      console.log(error);
+      if(error.response.status === 401){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Please login first",
+        })
+
+        setTimeout(() => {
+          navigate('/login')
+        }, 2500);
+      }
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: error.response.data.message,
+        text: "Please login first",
       })
     }
 

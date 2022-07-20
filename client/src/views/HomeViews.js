@@ -1,11 +1,19 @@
 import NavBar from "../components/NavBar";
 import Headers from "../components/Headers";
-import ProductCard from "../components/ProductCard";
+import ShopCard from "../components/Shopcard";
 import Footer from "../components/Footer";
 import { observer} from "mobx-react";
+import { useState, useEffect } from "react";
 const Homeviews = observer(() =>{
+  const [product, setProduct] = useState([]);
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/products?limit=4`)
+      .then((response) => response.json())
+      .then((data) => setProduct(data))
+  }, []);
   
+  console.log(product,"<<<<<<<");
   return (
     <>
     
@@ -43,7 +51,10 @@ const Homeviews = observer(() =>{
 
 
           <div class="grid grid-flow-row grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 p-5">
-        <ProductCard></ProductCard>
+          {product.map((products) => (
+                <ShopCard products={products}></ShopCard>
+              ))}
+       
           </div>
         </div>
 
