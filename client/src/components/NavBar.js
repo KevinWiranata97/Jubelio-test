@@ -19,7 +19,7 @@ export default function NavBar(){
             Shop
           </a>
           <a
-            href="products/add"
+            href="/products/add"
             class="text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"
           >
             Add New Product

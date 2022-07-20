@@ -2,7 +2,7 @@ import NavBar from "../components/NavBar";
 
 export default function LoginViews() {
   
- function editDetails(e) {
+ function login(e) {
   e.preventDefault();
   
 
@@ -20,7 +20,7 @@ export default function LoginViews() {
           <p className="text-gray-600 mb-6 text-sm">
             Login to your account to continue.
           </p>
-          <form onSubmit={editDetails}>
+          <form onSubmit={login}>
             <div className="space-y-3">
               <div>
                 <label for="email" className="text-gray-600 mb-2 block">

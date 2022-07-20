@@ -1,13 +1,53 @@
 import React from "react";
-
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from 'axios'
+import Swal from 'sweetalert2'
 export default function Modal() {
-  const [showModal, setShowModal] = React.useState(false);
+  const params = useParams();
 
+
+  const [showModal, setShowModal] = React.useState(false);
+  const [product_name, setProduct_name] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [sku, setSku] = useState("");
+  
 async function editDetails(e) {
-    e.preventDefault();
+  e.preventDefault();
+  
+  try {
+    await axios({
+      method: "PUT",
+      url: `http://localhost:3000/products/${params.id}`,
+      data:{
+        product_name,
+        image,
+        price,
+        description,
+        sku
+      }
+    });
+
+    Swal.fire(
+      'Good job!',
+      'Data successfully edited!',
+      'success'
+    )
+ 
+    setShowModal(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2500);
     
-   
-     
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.message,
+    })
+  }
    }
   return (
     <>
@@ -35,6 +75,9 @@ async function editDetails(e) {
                 </label>
                 <input
                   type="text"
+                  id="product_name"
+                  value={product_name}
+                  onChange={(e) => setProduct_name(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded  focus:border-red-500"
                   placeholder="Enter new Product name"
                 ></input>
@@ -45,6 +88,9 @@ async function editDetails(e) {
                 </label>
                 <input
                   type="url"
+                  id="image"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded  focus:border-red-500"
                   placeholder="Enter your image url"
                 ></input>
@@ -55,6 +101,9 @@ async function editDetails(e) {
                 </label>
                 <input
                   type="text"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded"
                   placeholder="Enter new product Description"
                 ></input>
@@ -65,6 +114,9 @@ async function editDetails(e) {
                 </label>
                 <input
                   type="text"
+                  id="price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded"
                   placeholder="Enter new product price "
                 ></input>
@@ -75,6 +127,9 @@ async function editDetails(e) {
                 </label>
                 <input
                   type="text"
+                  id="sku"
+                  value={sku}
+                  onChange={(e) => setSku(e.target.value)}
                   className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded"
                   placeholder="Enter new product SKU "
                 ></input>
