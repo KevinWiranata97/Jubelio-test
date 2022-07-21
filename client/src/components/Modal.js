@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 export default function Modal({style, buttonName, method}) {
  
 const params = useParams()
 const navigate = useNavigate()
 
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [product_name, setProduct_name] = useState("");
   const [image, setImage] = useState("");
   const [price, setPrice] = useState("");
@@ -22,6 +22,24 @@ const navigate = useNavigate()
       sku
   }
 
+  function showForm(){
+    if(localStorage.getItem("Authorization")){
+      setShowModal(true)
+    }
+  
+   if(!localStorage.getItem("Authorization")){
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: "Please login first",
+    })
+
+    setTimeout(() => {
+      navigate('/login')
+    }, 2500);
+   }
+
+  }
 
   function submitHandler(e){
     e.preventDefault();
@@ -34,7 +52,7 @@ const navigate = useNavigate()
       <button
         className={style}
         type="button"
-        onClick={() => setShowModal(true)}
+        onClick={() => showForm()}
       >
         {buttonName}
       </button>
