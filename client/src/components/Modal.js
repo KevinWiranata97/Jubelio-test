@@ -4,7 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-export default function Modal() {
+export default function Modal({style, buttonName, method}) {
+ 
   const params = useParams();
 
 
@@ -16,64 +17,31 @@ export default function Modal() {
   const [description, setDescription] = useState("");
   const [sku, setSku] = useState("");
   
-async function editDetails(e) {
-  e.preventDefault();
-  
-  try {
-    await axios({
-      method: "PUT",
-      url: `http://localhost:3000/products/${params.id}`,
-      headers: {
-        authorization: localStorage.getItem("Authorization"),
-      },
-      data:{
-        product_name,
-        image,
-        price,
-        description,
-        sku
-      }
-    });
+  const payload = {
+      product_name,
+      image,
+      price,
+      description,
+      sku
+  }
 
-    Swal.fire(
-      'Good job!',
-      'Data successfully edited!',
-      'success'
-    )
- 
+
+  function submitHandler(e){
+    e.preventDefault();
+    method(payload)
     setShowModal(false);
     setTimeout(() => {
       window.location.reload();
     }, 2500);
-    
-  } catch (error) {
-    if(error.response.status === 401){
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: "Please login first",
-      })
-
-      setTimeout(() => {
-        navigate('/login')
-      }, 2500);
-    }
-    console.log(error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: error.response.data.message,
-    })
   }
-   }
   return (
     <>
       <button
-        className="bg-red-600 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className={style}
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Edit Product
+        {buttonName}
       </button>
       {showModal ? (
         <>
@@ -84,7 +52,7 @@ async function editDetails(e) {
         <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden text-justify bg-white">
           <h2 className="text-2xl uppercase font-medium mb-3">Add new Product</h2>
           
-          <form onSubmit={editDetails}>
+          <form onSubmit={submitHandler}>
             <div className="space-y-3">
               <div>
                 <label for="Product Name" className="text-gray-600 mb-2 block">
@@ -156,7 +124,7 @@ async function editDetails(e) {
       
 
             <div className="mt-4">
-              <button onSubmit={editDetails} type="submit" className="block w-full py-2 text-center bg-red-500 text-white border border-red-500 rounded hover:bg-transparent hover:text-red-500 transition font-medium">
+              <button  type="submit" className="block w-full py-2 text-center bg-red-500 text-white border border-red-500 rounded hover:bg-transparent hover:text-red-500 transition font-medium">
                 SUBMIT
               </button>
             </div>

@@ -25,6 +25,46 @@ export default function DetailViews() {
       .then((data) => setProductRec(data))
   }, []);
 
+  async function editDetails(payload) {
+    try {
+      await axios({
+        method: "PUT",
+        url: `http://localhost:3000/products/${params.id}`,
+        headers: {
+          authorization: localStorage.getItem("Authorization"),
+        },
+        data:payload
+      });
+  
+      Swal.fire(
+        'Good job!',
+        'Data successfully edited!',
+        'success'
+      )
+   
+  
+      
+    } catch (error) {
+      if(error.response.status === 401){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Please login first",
+        })
+  
+        setTimeout(() => {
+          navigate('/login')
+        }, 2500);
+      }
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+      })
+    }
+     }
+
   async function deleteProduct() {
 
     try {
@@ -179,7 +219,13 @@ export default function DetailViews() {
 
           <div className="flex gap-3 border-b border-gray-200 pb-9 mt-6">
            
-            <Modal></Modal>
+          { (
+              <Modal
+                style={"bg-red-600 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"}
+                buttonName={"Edit Product"}
+                method={editDetails}
+              />
+            )}
 
             <button
               onClick={deleteProduct}

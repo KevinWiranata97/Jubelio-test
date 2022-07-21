@@ -1,4 +1,53 @@
+import Modal from "./Modal";
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 export default function NavBar() {
+const navigate = useNavigate()
+async function addProduct(payload){
+
+  try {
+   
+   await axios({
+      method: "POST",
+      url: `http://localhost:3000/products`,
+      headers: {
+        authorization: localStorage.getItem("Authorization"),
+      },
+      data: payload
+    });
+
+   
+    Swal.fire(
+      'Good job!',
+      'Data successfully added!',
+      'success'
+    )
+
+    navigate('/shop')
+    
+
+  } catch (error) {
+    if(error.response.status === 401){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Please login first",
+      })
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 2500);
+    }
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: "Please login first",
+    })
+  }
+}
+
+  
   if (localStorage.getItem("Authorization")) {
     return (
       <div class="md:flex md:flex-row md:justify-between text-center text-sm sm:text-base">
@@ -19,12 +68,13 @@ export default function NavBar() {
           >
             Shop
           </a>
-          <a
-            href="/products/add"
-            class="text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"
-          >
-            Add New Product
-          </a>
+          { (
+              <Modal
+                style={"text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"}
+                buttonName={"Add Product"}
+                method={addProduct}
+              />
+            )}
           <a
             href="/"
             class="text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"
