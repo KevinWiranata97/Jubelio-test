@@ -124,12 +124,13 @@ async function addProduct(payload){
       >
         Shop
       </a>
-      <a
-        href="/products/add"
-        class="text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"
-      >
-        Add New Product
-      </a>
+      { (
+              <Modal
+                style={"text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"}
+                buttonName={"Add Product"}
+                method={addProduct}
+              />
+            )}
       <a
         href="/login"
         class="text-gray-600 hover:text-purple-600 p-4 px-3 sm:px-4"
