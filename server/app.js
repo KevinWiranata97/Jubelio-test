@@ -1,25 +1,24 @@
 "use strict";
-require('dotenv').config()
+require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const hapiAuthJWT = require("./lib/");
-const JWT = require("jsonwebtoken"); // used to sign our content
+
 const { comparePassword, hashPassword } = require("./helpers/bcrypt");
 const { generateToken } = require("./helpers/jwt");
 const db = require("./services/index");
-
-
 
 // use the token as the 'authorization' header in requests
 // const token = JWT.sign(people[1], secret); // synchronous
 // console.log(token);
 // bring your own validation function
 const validate = async function (decoded, request, h) {
-
   const email = decoded.email;
-  const findUser = await db.query(`SELECT * FROM Users WHERE email = '${email}'`);
-  if(findUser){
+  const findUser = await db.query(
+    `SELECT * FROM Users WHERE email = '${email}'`
+  );
+  if (findUser) {
     return { isValid: true };
-  }else{
+  } else {
     return { isValid: false };
   }
 };
@@ -28,6 +27,9 @@ const init = async () => {
   const server = Hapi.server({
     port: 3000,
     host: "localhost",
+    routes: {
+      cors: true,
+    },
   });
 
   await server.register(hapiAuthJWT);
@@ -81,11 +83,14 @@ const init = async () => {
             user_name: findUser[0].user_name,
           };
 
-          console.log(findUser);
-          console.log(payload, "payload");
           const access_token = generateToken(payload);
 
-          return h.response({ access_token: access_token }).code(200);
+          return h
+            .response({
+              access_token: access_token,
+              user_name: findUser[0].user_name,
+            })
+            .code(200);
         } catch (error) {
           console.log(error);
         }
@@ -98,8 +103,33 @@ const init = async () => {
       config: { auth: false },
       handler: async (request, h) => {
         try {
-          const result = await db.query("SELECT * FROM Products");
+          const query = request.query.limit
+          if(query){
+            const result = await db.query(
+              `SELECT * FROM Products LIMIT ${query}`
+            );
+            return h.response(result).code(200);
+          }
+          const result = await db.query(
+            "SELECT * FROM Products ORDER BY id DESC;"
+          );
           return h.response(result).code(200);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    },
+    {
+      method: "GET",
+      path: "/products/{id}",
+      config: { auth: false },
+      handler: async (request, h) => {
+        try {
+          const id = request.params.id;
+          const result = await db.query(
+            `SELECT * FROM Products Where id = '${id}'`
+          );
+          return h.response(result[0]).code(200);
         } catch (error) {
           console.log(error);
         }
@@ -108,6 +138,7 @@ const init = async () => {
     {
       method: "POST",
       path: "/products",
+
       handler: async (request, h) => {
         try {
           const { product_name, image, sku, price, description } =
@@ -121,8 +152,9 @@ const init = async () => {
       },
     },
     {
-      method: ["PUT", "GET"],
+      method: ["PUT"],
       path: "/products/{id}",
+
       handler: async (request, h) => {
         try {
           const id = request.params.id;
@@ -149,6 +181,7 @@ const init = async () => {
     {
       method: "DELETE",
       path: "/products/{id}",
+
       handler: async (request, h) => {
         try {
           const id = request.params.id;

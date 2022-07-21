@@ -1,9 +1,19 @@
 import NavBar from "../components/NavBar";
 import ShopCard from "../components/Shopcard";
 import { observer } from "mobx-react";
-import store from "../stores/store";
+import { Store } from "../stores/store";
+
+import { useMemo, useEffect } from "react";
 
 const ShoppingViews = observer(() => {
+  const store = useMemo(() => new Store(), []);
+
+
+  useEffect(() => {
+   store.fetchProduct();
+  }, [store.products]);
+
+  console.log(store.products, "<<<<<");
 
   return (
     <>

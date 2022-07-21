@@ -1,1 +1,12 @@
-test
+run application:
+- make database with name "Jubelio" in postgreSQL
+- open terminal in jubelio/test/server
+- npm install
+- npm run create (make table in database)
+- node seeders/seeder.js (make sure in server terminal path)
+- make .env file with secretkey
+- run nodemon app.js
+
+run xmltojson:
+- node services/xmljson.js (it will run a function which fetch data from elevania API and transform it into JSON file)
+
