@@ -1,15 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from 'axios'
-import Swal from 'sweetalert2'
 
 export default function Modal({style, buttonName, method}) {
  
-  const params = useParams();
+const params = useParams()
+const navigate = useNavigate()
 
-
-  const navigate = useNavigate()
   const [showModal, setShowModal] = React.useState(false);
   const [product_name, setProduct_name] = useState("");
   const [image, setImage] = useState("");
@@ -28,11 +25,9 @@ export default function Modal({style, buttonName, method}) {
 
   function submitHandler(e){
     e.preventDefault();
-    method(payload)
+    method(payload, params.id, navigate)
     setShowModal(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2500);
+  
   }
   return (
     <>

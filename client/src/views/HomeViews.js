@@ -13,7 +13,7 @@ const Homeviews = observer(() =>{
       .then((data) => setProduct(data))
   }, []);
   
-  console.log(product,"<<<<<<<");
+
   return (
     <>
     

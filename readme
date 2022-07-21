@@ -9,3 +9,4 @@ run application:
 
 run xmltojson:
 - node services/xmljson.js (it will run a function which fetch data from elevania API and transform it into JSON file)
+
