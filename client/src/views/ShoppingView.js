@@ -13,7 +13,7 @@ const ShoppingViews = observer(() => {
    store.fetchProduct();
   }, [store.products]);
 
-  console.log(store.products, "<<<<<");
+
 
   return (
     <>

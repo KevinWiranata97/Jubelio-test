@@ -3,21 +3,21 @@ import Footer from "../components/Footer";
 import ShopCard from "../components/Shopcard";
 import Modal from "../components/Modal";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import { useState, useEffect, useMemo } from "react";
+import { Store } from "../stores/store";
+
 
 export default function DetailViews() {
+  const store = useMemo(() => new Store(), []);
   const navigate = useNavigate()
   const params = useParams();
-  const [product, setProduct] = useState([]);
+
   const [productRec, setProductRec] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/${params.id}`)
-      .then((response) => response.json())
-      .then((data) => setProduct(data))
+   store.fetchProductById(params.id)
   }, [params.id]);
+
 
   useEffect(() => {
     fetch(`http://localhost:3000/products?limit=4`)
@@ -25,83 +25,10 @@ export default function DetailViews() {
       .then((data) => setProductRec(data))
   }, []);
 
-  async function editDetails(payload) {
-    try {
-      await axios({
-        method: "PUT",
-        url: `http://localhost:3000/products/${params.id}`,
-        headers: {
-          authorization: localStorage.getItem("Authorization"),
-        },
-        data:payload
-      });
-  
-      Swal.fire(
-        'Good job!',
-        'Data successfully edited!',
-        'success'
-      )
-   
-  
-      
-    } catch (error) {
-      if(error.response.status === 401){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: "Please login first",
-        })
-  
-        setTimeout(() => {
-          navigate('/login')
-        }, 2500);
-      }
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response.data.message,
-      })
-    }
-     }
 
-  async function deleteProduct() {
-
-    try {
-      await axios({
-        method: "DELETE",
-        url: `http://localhost:3000/products/${params.id}`,
-        headers: {
-          authorization: localStorage.getItem("Authorization"),
-        }
-      });
-      Swal.fire(
-        'Good job!',
-        'Data successfully edited!',
-        'success'
-      )
-    
-      navigate('/shop')
-    } catch (error) {
-      if(error.response.status === 401){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: "Please login first",
-        })
-  
-        setTimeout(() => {
-          navigate('/login')
-        }, 2500);
-      }
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.response.data.message,
-      })
-    }
-  }
+function deleteHandler(id){
+  store.deleteProduct(id, navigate)
+}
 
   return (
     <>
@@ -112,33 +39,33 @@ export default function DetailViews() {
       <div className="container grid grid-cols-2 px-48 py-24 gap-6">
         <div>
           <img
-            src={product.image}
+            src={store.productById.image}
             alt="usb"
             className="w-full"
           ></img>
           <div className="grid grid-cols-5 gap-4 mt-4">
             <img
-              src={product.image}
+              src={store.productById.image}
               alt="usb"
               className="w-full cursor-pointer border border-red-500"
             ></img>
             <img
-              src={product.image}
+              src={store.productById.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src={product.image}
+              src={store.productById.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src={product.image}
+              src={store.productById.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
             <img
-              src={product.image}
+              src={store.productById.image}
               alt="usb"
               className="w-full cursor-pointer border"
             ></img>
@@ -147,7 +74,7 @@ export default function DetailViews() {
 
         <div className=" text-justify">
           <h2 className="text-3xl font-medium uppercase mb-2 ">
-            {product.product_name}
+          {store.productById.product_name}
           </h2>
 
           <div className="flex items-center mb-4 text-justify">
@@ -188,18 +115,18 @@ export default function DetailViews() {
 
             <p className="text-gray-800 font-semibold">
               <span>SKU:</span>
-              <span className="text-slate-500 font-normal">{product.sku}</span>
+              <span className="text-slate-500 font-normal">{store.productById.sku}</span>
             </p>
           </div>
 
           <div className="flex items-baseline mb-1 space-x-2 mt-4">
-            <p className="text-2xl text-red-600 font-semibold">Rp.{product.price}</p>
+            <p className="text-2xl text-red-600 font-semibold">Rp.{store.productById.price}</p>
             <p className="text-base text-gray-600 line-through">
               Rp. 999.000.00
             </p>
           </div>
           <p className="text-gray-600 mt-4">
-          {product.description}
+          {store.productById.description}
           </p>
 
           <div className="mt-4">
@@ -223,12 +150,12 @@ export default function DetailViews() {
               <Modal
                 style={"bg-red-600 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"}
                 buttonName={"Edit Product"}
-                method={editDetails}
+                method={store.editDetails}
               />
             )}
 
             <button
-              onClick={deleteProduct}
+              onClick={()=> deleteHandler(params.id)}
               className=" border border-gray-300 text-gray px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-red-600 transition"
             >
               <i className="fa-solid fa-dumpster"></i> Delete Product
@@ -299,7 +226,7 @@ export default function DetailViews() {
             <h2 class="text-3xl pl-5 font-bold">Produk Pilihan</h2>
             <a
               class="bg-purple-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-purple-700 flex flex-row justify-center m-5"
-              href="a,com"
+              href="/shop"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

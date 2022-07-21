@@ -7,6 +7,7 @@ export default function LoginViews() {
   const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 async function login(e) {
   e.preventDefault();
    try {
