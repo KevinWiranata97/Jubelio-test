@@ -12,7 +12,7 @@ const db = require("./services/index");
 // console.log(token);
 // bring your own validation function
 const validate = async function (decoded, request, h) {
-  const email = decoded.email;
+  const email = decoded.emailz;
   const findUser = await db.query(
     `SELECT * FROM Users WHERE email = '${email}'`
   );
